@@ -1,0 +1,75 @@
+/////////////////////////////////////////////////////////////
+//
+// SceneDocumentor
+//
+/////////////////////////////////////////////////////////////
+//
+// Global String table: German
+//
+/////////////////////////////////////////////////////////////
+// 2009-2010 by www.c4d-jack.de
+// OpenSource. No warranty, no support.
+/////////////////////////////////////////////////////////////
+
+STRINGTABLE
+{
+	IDS_TCOMMENT					"Kommentar";
+	IDS_TCOMMENT_HELPTEXT			"Schreiben Sie einen beliebigen Text. HTML kann verwendet werden.";
+	IDS_COMMENT_TITLE				"Kommentar";
+	IDS_CREATECOMMENTNULL_INC_OPNAME	"Objektnamen hinzuf\u00FCgen?";
+	IDS_CREATECOMMENTNULL_INC_TITLE		"Titel von Tag hinzuf\u00FCgen?";
+	IDS_CREATECOMMENTNULLS			"Kommentar-Null-Objekte erzeugen";
+	IDS_CREATECOMMENTNULLS_HELP		"Ruft die Funktion 'Kommentar-Null-Objekte erzeugen' f\u00FCr jedes Kommentar-Tag in der Szene auf";
+	IDS_CREATECOMMENTNULLS_STATUS	"# Null-Objekte erzeugt";
+	IDS_REMOVEALLTAGS				"Kommentar-Tags entfernen";
+	IDS_REMOVEALLTAGS_HELP			"Alle Kommentar-Tags aus der Szene entfernen";
+	IDS_NULLPARENT					"Information";
+	IDS_REMOVEALLTAGS_QUESTION		"Wirklich alle Kommentar-Tags aus der Szene entfernen?";
+	IDS_REMOVEALLTAGS_QUESTION_SELECTED	"Nur von selektierten Objekten?";
+	IDS_REMOVEALLTAGS_STATUS		"# Kommentar-Tags entfernt";
+	IDS_CREATEDOCUMENT				"#$50HTML-Dokument erzeugen";
+	IDS_CREATEDOCUMENT_HELP			"Erzeugt ein HTML-Dokument aus den Kommentar-Tags in der Szene";
+	IDS_CREATEDOCUMENT_STATUS		"# Kommentar-Tags nach # exportiert (# ms)";
+	IDS_CREATEDOCUMENT_DLGTITLE_SAVEFILE	"Dokument speichern unter";
+	IDS_CREATEDOCUMENT_ERRORMSG		"Ein Fehler ist aufgetreten. Eventuell sind die Template-Dateien in res\template nicht vorhanden?";
+	IDS_CREATEDOCUMENT_DONE			"Dokument erzeugt: #";
+	IDS_RENDERIMAGE_ERRORMSG		"Ein Fehler beim Speichern des Bildes ist aufgetreten.";
+	IDS_RENDERIMAGE_RUNNING			"Dokument-Bild wird gerendert...";
+	IDS_RENDERIMAGE_HTML_NOIMAGE		"(Es wurde kein Bild gerendert: #)";
+	IDS_RENDERIMAGE_MSG_NOMEM					"";
+	IDS_RENDERIMAGE_MSG_TEXMISSING		"";
+	IDS_RENDERIMAGE_MSG_MP						"";
+	IDS_RENDERIMAGE_MSG_IMAGE					"";
+	IDS_RENDERIMAGE_MSG_USERBREAK			"";
+	IDS_HELP_ERROR					"Fehler beim \u00D6ffnen der Hilfe!";
+	IDS_OPENHELP					"#$70SceneDocumentor Hilfe";
+	IDS_OPENHELP_HELP				"HTML-Hilfe \u00F6ffnen";
+
+	IDS_CDOC_DLGTITLE				"HTML-Dokument erzeugen";
+	IDS_CDOC_GRP_FILENAME			"Dateiname";
+	IDS_CDOC_FILENAME				"...";
+	IDS_CDOC_OBJECT					"Objekt";
+	IDS_CDOC_GRP_ADDINFO			"Zus\u00E4tzliche Informationen";
+	IDS_CDOC_TITLE					"Titel";
+	IDS_CDOC_AUTHOR					"Autor";
+	IDS_CDOC_INTROTXT				"Geben Sie einen beliebigen Text ein, der im Dokument erscheinen soll. HTML-Code funktioniert.";
+	IDS_CDOC_GRP_SETTINGS			"Einstellungen";
+	IDS_CDOC_GRP_SETTINGS_IMAGE		"Eingebettetes Bild";
+	IDS_CDOC_IMAGE_EDITOR			"Editoransicht";
+	IDS_CDOC_IMAGE_RENDER			"Rendering";
+	IDS_CDOC_IMAGE_WIDTH			"Breite";
+	IDS_CDOC_IMAGE_HEIGHT			"H\u00F6he";
+	IDS_CDOC_OPENDOCUMENT			"Dokument \u00F6ffnen";
+	IDS_CDOC_GRP_TEMPLATE			"Template";
+	IDS_CDOC_TMPLDIR_INFO			"Bearbeiten Sie die Template-Dateien, um das Aussehen des generierten Dokuments zu ver\u00E4ndern.";
+	IDS_CDOC_TMPLDIR				"Ordner: #";
+	IDS_CDOC_TMPLDIR_OPEN			"Ordner \u00F6ffnen";
+	IDS_CDOC_GENERATE				"Generieren";
+	IDS_CDOC_HELP					"Hilfe";
+
+	IDS_COMMENTINSPECTOR				"#$40Kommentar-Inspektor";
+	IDS_COMMENTINSPECTOR_HELP		"Öffnet einen Dialog, um Kommentare anzuzeigen";
+	IDS_CINSP_DLGTITLE					"Kommentar-Inspektor";
+	IDS_CINSP_GRP_MAIN					"Text";
+	IDS_CINSP_USECHILDREN				"Kommentare von Unterobjekten anzeigen";
+}

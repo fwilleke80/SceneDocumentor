@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>SceneDocumentor Help</title>
+<style type="text/css">
+<!--
+@import url("style.css");
+-->
+</style>
+</head>
+
+<body class="twoColElsLtHdr">
+	<div id="container">
+		<div id="header">
+			<h1>SceneDocumentor Help</h1>
+		</div>
+		<div id="sidebar1">
+			<h3>Contents</h3>
+			<p>
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li class="nodot">&nbsp;</li>
+					<li><a href="tcomment.html">Comment Tag</a></li>
+					<li><a href="ccreatenullobjects.html">Create Null Objects</a></li>
+					<li><a href="cremovealltags.html">Remove all Tags</a></li>
+					<li><a href="ccommentinspector.html">Comment Inspector</a></li>
+					<li><a href="ccreatedocument.html">Create HTML Document</a></li>
+					<li class="nodot">&nbsp;</li>
+					<li><a href="ideas.html">Ideas</a></li>
+					<li><a href="license.html">License</a></li>
+					<li><a href="contributors.html">Contributors</a></li>
+				</ul>
+			</p>
+		</div>
+		<div id="mainContent">
+			<h1>Ideas for improvement</h1>
+			<p>Just some thoughts about additional features that may be implemented.</p>
+			<h2>Better templates</h2>
+			<p>At the moment, there's a header template and a footer template. The middle part of the document is created from hard coded HTML that can be found in <strong>ccreatedocument.cpp</strong>.</p>
+			<p>It would be nice to have only one template that includes something like iteration placeholders to mark the place where the object and tag listing, as well as the comment texts will be inserted.</p>
+			<h2>Multiple templates</h2>
+			<p>How about subfolders in the template folder, to have several sets of different templates? The dialog window could be extended by a listview or dropdown box to select the desired template.</p>
+			<h2>Better image generation</h2>
+			<p>At the moment, the image is rendered in the background, invisible to the user. The status bar is not being correctly updated. It would be a good idea to process the rendering in the Picture Viewer.</p>
+			<p>It would also be nice to have different placeholders, e.g. to include several different views (perspective, top, front, etc) into the document.</p>
+			<h2>Information Object</h2>
+			<p>How about an object that holds the Title, Author and Free Text information, that must currently be specified in the dialog?</p>
+		</div>
+		<br class="clearfloat" />
+		<div id="footer">
+			<p>2009-2010 by <a href="http://www.c4d-jack.de" target="_blank">www.c4d-jack.de</a></p>
+		</div>
+	</div>
+</body>
+</html>

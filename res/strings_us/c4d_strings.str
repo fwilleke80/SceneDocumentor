@@ -1,0 +1,75 @@
+/////////////////////////////////////////////////////////////
+//
+// SceneDocumentor
+//
+/////////////////////////////////////////////////////////////
+//
+// Global String table: English
+//
+/////////////////////////////////////////////////////////////
+// 2009-2010 by www.c4d-jack.de
+// OpenSource. No warranty, no support.
+/////////////////////////////////////////////////////////////
+
+STRINGTABLE
+{
+	IDS_TCOMMENT					"Comment";
+	IDS_TCOMMENT_HELPTEXT			"Write any text. HTML may be used.";
+	IDS_COMMENT_TITLE				"Comment";
+	IDS_CREATECOMMENTNULL_INC_OPNAME	"Include object name?";
+	IDS_CREATECOMMENTNULL_INC_TITLE		"Include Tag title?";
+	IDS_CREATECOMMENTNULLS			"#$10Create Comment Null Objects";
+	IDS_CREATECOMMENTNULLS_HELP		"Triggers the 'Create Null Object' function for each Comment Tag in the scene";
+	IDS_CREATECOMMENTNULLS_STATUS	"Created # Null objects";
+	IDS_REMOVEALLTAGS				"#$20Remove Comment Tags";
+	IDS_REMOVEALLTAGS_HELP			"Removes all Comments Tags from the scene";
+	IDS_NULLPARENT					"Information";
+	IDS_REMOVEALLTAGS_QUESTION		"Really remove all comment tags from the scene?";
+	IDS_REMOVEALLTAGS_QUESTION_SELECTED	"Only from selected objects?";
+	IDS_REMOVEALLTAGS_STATUS		"Removed # Comment Tags";
+	IDS_CREATEDOCUMENT				"#$50Create HTML Document";
+	IDS_CREATEDOCUMENT_HELP			"Generates an HTML document from the Comment tags in the scene";
+	IDS_CREATEDOCUMENT_STATUS		"Compiled # comment items into # (# msec)";
+	IDS_CREATEDOCUMENT_DLGTITLE_SAVEFILE	"Save document as";
+	IDS_CREATEDOCUMENT_ERRORMSG		"An error happened. Maybe your template files are missing in res\template ?";
+	IDS_CREATEDOCUMENT_DONE			"Document created at: #";
+	IDS_RENDERIMAGE_ERRORMSG		"An error has happened while saving the image file.";
+	IDS_RENDERIMAGE_RUNNING			"Rendering document image...";
+	IDS_RENDERIMAGE_HTML_NOIMAGE		"(No image rendered: #)";
+	IDS_RENDERIMAGE_MSG_NOMEM					"Out of Memory";
+	IDS_RENDERIMAGE_MSG_TEXMISSING		"Texture missing";
+	IDS_RENDERIMAGE_MSG_MP						"MP initialization failed";
+	IDS_RENDERIMAGE_MSG_IMAGE					"Image missing or shader could not be initialized";
+	IDS_RENDERIMAGE_MSG_USERBREAK			"User stopped the processing";
+	IDS_HELP_ERROR					"Error opening help file!";
+	IDS_OPENHELP					"#$70SceneDocumentor Help";
+	IDS_OPENHELP_HELP				"Open the HTML help file";
+
+	IDS_CDOC_DLGTITLE				"Create HTML Document";
+	IDS_CDOC_GRP_FILENAME			"Filename";
+	IDS_CDOC_FILENAME				"...";
+	IDS_CDOC_OBJECT					"Object";
+	IDS_CDOC_GRP_ADDINFO			"Additional Information";
+	IDS_CDOC_TITLE					"Title";
+	IDS_CDOC_AUTHOR					"Author";
+	IDS_CDOC_INTROTXT				"Input any text here, that will appear on top of the document. HTML may be used.";
+	IDS_CDOC_GRP_SETTINGS			"Settings";
+	IDS_CDOC_GRP_SETTINGS_IMAGE		"Embedded image";
+	IDS_CDOC_IMAGE_EDITOR			"Editor view";
+	IDS_CDOC_IMAGE_RENDER			"Render image";
+	IDS_CDOC_IMAGE_WIDTH			"Width";
+	IDS_CDOC_IMAGE_HEIGHT			"Height";
+	IDS_CDOC_OPENDOCUMENT			"Open document";
+	IDS_CDOC_GRP_TEMPLATE			"Template";
+	IDS_CDOC_TMPLDIR_INFO			"Edit the template files to change the look of the generated document.";
+	IDS_CDOC_TMPLDIR				"Folder: #";
+	IDS_CDOC_TMPLDIR_OPEN			"Open Folder";
+	IDS_CDOC_GENERATE				"Generate";
+	IDS_CDOC_HELP					"Help";
+	
+	IDS_COMMENTINSPECTOR				"#$40Comment Inspector";
+	IDS_COMMENTINSPECTOR_HELP		"Opens a dialog to inspect Comment Tags in range";
+	IDS_CINSP_DLGTITLE					"Comment Inspector";
+	IDS_CINSP_GRP_MAIN					"Text";
+	IDS_CINSP_USECHILDREN				"Show Children's Comments";
+}

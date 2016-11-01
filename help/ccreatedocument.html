@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>SceneDocumentor Help</title>
+<style type="text/css">
+<!--
+@import url("style.css");
+-->
+</style>
+</head>
+
+<body class="twoColElsLtHdr">
+	<div id="container">
+		<div id="header">
+			<h1>SceneDocumentor Help</h1>
+		</div>
+		<div id="sidebar1">
+			<h3>Contents</h3>
+			<p>
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li class="nodot">&nbsp;</li>
+					<li><a href="tcomment.html">Comment Tag</a></li>
+					<li><a href="ccreatenullobjects.html">Create Null Objects</a></li>
+					<li><a href="cremovealltags.html">Remove all Tags</a></li>
+					<li><a href="ccommentinspector.html">Comment Inspector</a></li>
+					<li><a href="ccreatedocument.html">Create HTML Document</a></li>
+					<blockquote>
+						<li><a href="ccreatedocument_templates.html">HTML Templates</a></li>
+					</blockquote>
+					<li class="nodot">&nbsp;</li>
+					<li><a href="ideas.html">Ideas</a></li>
+					<li><a href="license.html">License</a></li>
+					<li><a href="contributors.html">Contributors</a></li>
+				</ul>
+			</p>
+		</div>
+		<div id="mainContent">
+			<h1>The &quot;Create HTML Document&quot; Command</h1>
+			<p>This is the most complex command in SceneDocumentor. It allows you to export an exposé of the scene in HTML format.</p>
+			<p>When you call this command, a dialog window will appear:</p>
+			<p><img src="ccreatedocument.jpg" alt="The document creation dialog" /></p>
+			<h2>Filename</h2>
+			<p>By clicking the button, you can specify the filename of the HTML document that will be generated.</p>
+			<h2>Additional Information</h2>
+			<p>Here you can specify some addition text information that can be included in the HTML document using placeholders.</p>
+			<h3>Title</h3>
+			<p>Specify a title for the document here. By default, this is the filename of the scene. The placeholder %DOC_TITLE% will insert the title into the HTML document.</p>
+			<h3>Author</h3>
+			<p>Specify an author name for the document here. By default, this is your name and company, as stored in your CINEMA 4D license information. The placeholder %DOC_AUTHOR% will insert this information.</p>
+			<h3>Free Text</h3>
+			<p>In this big text box, you may input any text (including HTML code). The placeholder %DOC_INTROTEXT% will insert this text.</p>
+			<h2>Embedded Image</h2>
+			<p>It is possible to include an image of your scene in the HTML document. If the placeholder %DOC_IMAGE% is found in a template, SceneDocumentor will render an image and save it along with the HTML document. The image is also named like the HTML document (e.g. if the document is named &quot;foo.html&quot;, the image file will be named &quot;foo.jpg&quot;).</p>
+			<h3>Editor view / Render image</h3>
+			<p>Here you can choose if the image will appear in editor graphics or fully rendered. Rendering a big scene may take a long time and look nice, while the editor setting is very fast.</p>
+			<h3>Width / Height</h3>
+			<p>Specify the dimensions of the image here (in pixels).</p>
+			<h2>Settings</h2>
+			<p>More settings for the document generation.</p>
+			<h3>Open document</h3>
+			<p>If this option is checked, the HTML document will be opened in your system's default browser after it has been created.</p>
+			<h2>Template</h2>
+			<p>Here you get a short information about the HTML template files. Clicking the button will open the template folder in the Explorer/Finder.</p>
+			<h2>Generate</h2>
+			<p>Click this button to start the document generation.</p>
+		</div>
+		<br class="clearfloat" />
+		<div id="footer">
+			<p>2009-2010 by <a href="http://www.c4d-jack.de" target="_blank">www.c4d-jack.de</a></p>
+		</div>
+	</div>
+</body>
+</html>

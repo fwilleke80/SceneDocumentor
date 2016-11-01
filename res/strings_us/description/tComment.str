@@ -1,0 +1,31 @@
+/////////////////////////////////////////////////////////////
+//
+// SceneDocumentor :: Comment Tag
+//
+/////////////////////////////////////////////////////////////
+//
+// String table: English
+//
+/////////////////////////////////////////////////////////////
+// 2009-2010 by www.c4d-jack.de
+// OpenSource. No warranty, no support.
+/////////////////////////////////////////////////////////////
+
+STRINGTABLE tComment
+{
+	tComment								"Comment Tag";
+	
+	COMMENT_PROPERTIES			"Comment";
+	COMMENT_TEXT						"Text";
+	COMMENT_CREATEOBJ				"Create Null Object";
+	COMMENT_TITLE						"Title";
+	COMMENT_OPENHELP				"Help";
+	
+	COMMENT_ICONMODE				"Icon";
+	COMMENT_ICONMODE_0			"Standard";
+	COMMENT_ICONMODE_1			"Red";
+	COMMENT_ICONMODE_2			"Yellow";
+	COMMENT_ICONMODE_3			"Green";
+	COMMENT_ICONMODE_4			"Question mark";
+	COMMENT_ICONMODE_5			"Exclamation mark";
+}

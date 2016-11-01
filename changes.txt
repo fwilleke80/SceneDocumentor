@@ -1,0 +1,28 @@
+1.1.7
+- HTML creation dialog is now non-modal
+
+1.1.6
+- Fixed a crash bug in the Comment Tag
+
+1.1.5
+- Added Comment Tag Icon Mode Title to created Null Objects' name
+- Added Comment Tag Icon Mode Title to HTML export
+
+1.1.4
+- Added error message to be embedded in HTML document if image generation fails
+- Removed some stupid question dialogs from "Create Null Objects" and "Remove all Tags" commands
+- Fixed crash when clicking the "Help" button in Comment Tag
+- Fixed bug where lots of unnecessary line break would be added to Comment Inspector in bigger scenes
+
+1.1.3
+- Added "Icon" combobox to Comment Tag
+- Added evaluation of Comment Tag's "Icon" parameter in Comment Inspector
+
+1.1.2
+- Added "Use Children" option to Comment Inspector
+
+1.1
+- Added Comment Inspector
+
+1.0
+- Initial Release
