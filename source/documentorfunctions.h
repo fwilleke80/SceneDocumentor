@@ -5,6 +5,6 @@
 
 Bool ObjectHasComments(BaseObject *op);
 Bool SearchForComments(BaseObject *op);
-String GetSelectedCycleElementName(BaseList2D *node, LONG cycle_id);
+String GetSelectedCycleElementName(BaseList2D *node, Int32 cycle_id);
 
 #endif

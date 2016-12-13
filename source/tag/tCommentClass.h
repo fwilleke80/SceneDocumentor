@@ -1,6 +1,7 @@
 #include "c4d.h"
 #include "ge_dynamicarray.h"
 
+
 // Plugin Class declaration
 class tComment : public TagData
 {
@@ -8,22 +9,22 @@ class tComment : public TagData
 
 	private:
 		// Array with icon bitmaps
-		GeAutoDynamicArray<BaseBitmap*> customIcon;
+		maxon::BaseArray<BaseBitmap*> customIcon;
 
 	public:
 		// Standard class members
 		virtual Bool Init(GeListNode *node);
 		virtual Bool GetDDescription(GeListNode *node, Description *description, DESCFLAGS_DESC &flags);
-		virtual Bool Message(GeListNode* node, LONG type, void* data);
-		static NodeData *Alloc(void) { return gNew tComment; }
+		virtual Bool Message(GeListNode* node, Int32 type, void* data);
+		static NodeData *Alloc() { return NewObjClear(tComment); }
 
 		// Custom class members
 		Bool CreateNullObj(BaseTag *tag, Bool IncludeOpName, Bool IncludeTitle, Bool IncludeIcon, BaseObject *parent);
-		BaseBitmap *GetCustomIcon(LONG index)						{ return customIcon[index]; }
-		void SetCustomIcon(LONG index, BaseBitmap *b)		{ customIcon[index] = b; }
+		BaseBitmap *GetCustomIcon(Int32 index)						{ return customIcon[index]; }
+		void SetCustomIcon(Int32 index, BaseBitmap *b)		{ customIcon[index] = b; }
 
 		// Deconstructor: Clear icon storage on destruction
-		~tComment(void)
+		~tComment()
 		{
 			BaseBitmap *icon = customIcon[0];
 			if (icon) BaseBitmap::Free(icon);
@@ -37,7 +38,6 @@ class tComment : public TagData
 			if (icon) BaseBitmap::Free(icon);
 			icon = customIcon[5];
 			if (icon) BaseBitmap::Free(icon);
-			customIcon.Free();
 		}
 };
 
