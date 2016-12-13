@@ -1,0 +1,16 @@
+# OSX files
+*.xcworkspacedata
+*.xcuserstate
+*.xcsettings
+*.xcbkptlist
+*.xcscheme
+*.plist
+*.dylib
+
+# Windows files
+*.exp
+*.cdl64
+*.opensdf
+*.sdf
+*.tlog
+*.lastbuildstate
