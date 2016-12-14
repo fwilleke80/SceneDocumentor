@@ -83,9 +83,14 @@ Bool tComment::CreateNullObj(BaseTag *tag, Bool IncludeOpName, Bool IncludeTitle
 
 Bool tComment::Init(GeListNode *node)
 {
+	if (!node)
+		return false;
+
 	// Get pointer to tag's Container
 	BaseTag			*tag  = (BaseTag*)node;
 	BaseContainer	*data = tag->GetDataInstance();
+	if (!data)
+		return false;
 
 	data->SetString(COMMENT_HELPTEXT, GeLoadString(IDS_TCOMMENT_HELPTEXT));
 	data->SetString(COMMENT_TITLE, GeLoadString(IDS_COMMENT_TITLE));
@@ -93,6 +98,9 @@ Bool tComment::Init(GeListNode *node)
 
 	// Load icons for tag
 	// ------------------
+
+	if (!customIcon.Resize(6))
+		return false;
 
 	// Standard icon
 	BaseBitmap *icon = BaseBitmap::Alloc();
@@ -194,7 +202,8 @@ Bool tComment::Message(GeListNode* node, Int32 type, void* data)
 				GetCustomIconData *cid = (GetCustomIconData*)data;
 				IconData *id = cid->dat;
 
-				if (id) {
+				if (id)
+				{
 					switch (bc->GetInt32(COMMENT_ICONMODE))
 					{
 						case COMMENT_ICONMODE_0:
@@ -235,7 +244,9 @@ Bool tComment::Message(GeListNode* node, Int32 type, void* data)
 
 	return SUPER::Message(node,type,data);
 }
-Bool RegisterTComment(void)
+
+
+Bool RegisterTComment()
 {
 	// decide by name if the plugin shall be registered - just for user convenience
 	String name=GeLoadString(IDS_TCOMMENT); if (!name.Content()) return true;
