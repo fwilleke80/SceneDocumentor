@@ -13,13 +13,13 @@ class CCreateCommentNulls : public CommandData
 
 	public:
 		virtual Bool Execute(BaseDocument* doc);
-		virtual Bool Message(LONG type, void* data);
-		virtual LONG GetState(BaseDocument* doc);
+		virtual Bool Message(Int32 type, void* data);
+		virtual Int32 GetState(BaseDocument* doc);
 };
 
-void IterateObjectsAndTags(BaseObject *op, LONG &counter, Bool PutOnTopLevel, BaseObject *parent, Bool IncludeOpName, Bool IncludeTitle, Bool IncludeIcon, Bool JustTest = FALSE)
+void IterateObjectsAndTags(BaseObject *op, Int32 &counter, Bool PutOnTopLevel, BaseObject *parent, Bool IncludeOpName, Bool IncludeTitle, Bool IncludeIcon, Bool JustTest = false)
 {
-	BaseTag *tag = NULL;
+	BaseTag *tag = nullptr;
 
 	while (op)
 	{
@@ -28,7 +28,7 @@ void IterateObjectsAndTags(BaseObject *op, LONG &counter, Bool PutOnTopLevel, Ba
 			parent = BaseObject::Alloc(Onull); if (!parent) return;
 			String Name = GeLoadString(IDS_NULLPARENT);
 			parent->SetName(Name);
-			op->GetDocument()->InsertObject(parent, NULL, NULL, TRUE);
+			op->GetDocument()->InsertObject(parent, nullptr, nullptr, true);
 			op->GetDocument()->AddUndo(UNDOTYPE_NEW, parent);
 		}
 
@@ -38,7 +38,7 @@ void IterateObjectsAndTags(BaseObject *op, LONG &counter, Bool PutOnTopLevel, Ba
 		{
 			if (tag->GetType() == ID_TCOMMENT)
 			{
-				// Trigger Null Object Creation
+				// Trigger nullptr Object Creation
 				if (JustTest)
 				{
 					// Test only, just count
@@ -46,7 +46,7 @@ void IterateObjectsAndTags(BaseObject *op, LONG &counter, Bool PutOnTopLevel, Ba
 				}
 				else
 				{
-					// Create Null Object for this tag
+					// Create nullptr Object for this tag
 					if (((tComment*)tag)->CreateNullObj(tag, IncludeOpName, IncludeTitle, IncludeIcon, parent))
 						counter++;
 				}
@@ -67,17 +67,17 @@ void IterateObjectsAndTags(BaseObject *op, LONG &counter, Bool PutOnTopLevel, Ba
 Bool CCreateCommentNulls::Execute(BaseDocument* doc)
 {
 	// This variable is used to count how many tags are being processed
-	LONG Counter = 0;
+	Int32 Counter = 0;
 
     // Start Undo
 	doc->StartUndo();
 
     // Iterate all Objects and their tags. Abort if there's no object
 	BaseObject *op = doc->GetFirstObject();
-	if (!op) return FALSE;
+	if (!op) return false;
 
 	// Iterate all objects in the scene, and their tags
-	IterateObjectsAndTags(op, Counter, TRUE, NULL, TRUE/*IncludeOpName*/, TRUE/*IncludeTitle*/, TRUE);
+	IterateObjectsAndTags(op, Counter, true, nullptr, true/*IncludeOpName*/, true/*IncludeTitle*/, true);
 
 	// Finalize Undo
 	doc->EndUndo();
@@ -86,24 +86,24 @@ Bool CCreateCommentNulls::Execute(BaseDocument* doc)
 	EventAdd(EVENT_FORCEREDRAW);
 
 	// Write message to status bar
-	String Msg = String(GeLoadString(IDS_CREATECOMMENTNULLS_STATUS, LongToString(Counter)));
+	String Msg = String(GeLoadString(IDS_CREATECOMMENTNULLS_STATUS, String::IntToString(Counter)));
 	StatusSetText(Msg);
 
-	return TRUE;
+	return true;
 }
 
-Bool CCreateCommentNulls::Message(LONG type, void* data)
+Bool CCreateCommentNulls::Message(Int32 type, void* data)
 {
 	return SUPER::Message(type,data);
 }
 
-LONG CCreateCommentNulls::GetState(BaseDocument* doc)
+Int32 CCreateCommentNulls::GetState(BaseDocument* doc)
 {
 	BaseObject *op = doc->GetFirstObject();
 	if (!op) return 0;
 
-	LONG Counter = 0;
-	IterateObjectsAndTags(op, Counter, FALSE, NULL, FALSE, FALSE, TRUE, TRUE);
+	Int32 Counter = 0;
+	IterateObjectsAndTags(op, Counter, false, nullptr, false, false, true, true);
 
 	if (Counter > 0)
 		return CMD_ENABLED;
@@ -114,6 +114,6 @@ LONG CCreateCommentNulls::GetState(BaseDocument* doc)
 Bool RegisterCreateCommentNulls(void)
 {
 	// decide by name if the plugin shall be registered - just for user convenience
-	String name=GeLoadString(IDS_CREATECOMMENTNULLS); if (!name.Content()) return TRUE;
-	return RegisterCommandPlugin(ID_CREATECOMMENTNULLS, name, 0, AutoBitmap("CCreateCommentNulls.tif"), GeLoadString(IDS_CREATECOMMENTNULLS_HELP), gNew CCreateCommentNulls);
+	String name=GeLoadString(IDS_CREATECOMMENTNULLS); if (!name.Content()) return true;
+	return RegisterCommandPlugin(ID_CREATECOMMENTNULLS, name, 0, AutoBitmap("CCreateCommentNulls.tif"), GeLoadString(IDS_CREATECOMMENTNULLS_HELP), NewObjClear(CCreateCommentNulls));
 }

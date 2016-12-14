@@ -6,9 +6,9 @@
 Bool ReadLine(BaseFile *bf, String *v);
 Bool WriteString(const String line, BaseFile* file);
 String ReplaceStr(String Original, String Search, String Replacement);
-String LongToString2digits(LONG l);
+String LongToString2digits(Int32 l);
 String GetTextContent(BaseFile *source);
-CHAR* ConvString(const String& s);
+Char* ConvString(const String& s);
 String ConvertHTMLchars(String tmpl);
 
 #endif

@@ -17,7 +17,7 @@ C4D_CrashHandler old_handler;
 
 #define VersionString "SceneDocumentor 1.1.7"
 
-void SDKCrashHandler(CHAR *crashinfo)
+void SDKCrashHandler(Char *crashinfo)
 {
 	// don't forget to call the original handler!!!
 	if (old_handler) (*old_handler)(crashinfo);
@@ -30,16 +30,16 @@ Bool PluginStart(void)
 	C4DOS.CrashHandler = SDKCrashHandler;	// insert the own handler
 	
 	// Register plugins
-	if (!RegisterTComment()) return FALSE;
-	if (!RegisterCreateCommentNulls()) return FALSE;
-	if (!RegisterRemoveAllTags()) return FALSE;
-	if (!RegisterCommandPlugin(SCENEDOCUMENTOR_SEP01_PLUGID, "#$30--", 0, NULL, "", gNew CommandData)) return FALSE;
-	if (!RegisterCreateDocument()) return FALSE;
-	if (!RegisterCommentInspector()) return FALSE;
-	if (!RegisterCommandPlugin(SCENEDOCUMENTOR_SEP02_PLUGID, "#$60--", 0, NULL, "", gNew CommandData)) return FALSE;
-	if (!RegisterOpenHelp()) return FALSE;
+	if (!RegisterTComment()) return false;
+	if (!RegisterCreateCommentNulls()) return false;
+	if (!RegisterRemoveAllTags()) return false;
+	if (!RegisterCommandPlugin(SCENEDOCUMENTOR_SEP01_PLUGID, "#$30--", 0, nullptr, "", NewObjClear(CommandData))) return false;
+	if (!RegisterCreateDocument()) return false;
+	if (!RegisterCommentInspector()) return false;
+	if (!RegisterCommandPlugin(SCENEDOCUMENTOR_SEP02_PLUGID, "#$60--", 0, nullptr, "", NewObjClear(CommandData))) return false;
+	if (!RegisterOpenHelp()) return false;
 
-	return TRUE;
+	return true;
 }
 
 void PluginEnd(void)
@@ -47,16 +47,16 @@ void PluginEnd(void)
 	// Called when plugin is terminated
 }
 
-Bool PluginMessage(LONG id, void *data)
+Bool PluginMessage(Int32 id, void *data)
 {
 	// React to messages
 	switch (id)
 	{
 		case C4DPL_INIT_SYS:
 			// Don't start plugin without resources
-			if (!resource.Init()) return FALSE;
-			return TRUE;
+			if (!resource.Init()) return false;
+			return true;
 	}
 
-	return TRUE;
+	return true;
 }

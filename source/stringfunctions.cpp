@@ -3,11 +3,12 @@
 // Reads a line (String) from a BaseFile
 Bool ReadLine(BaseFile *bf, String *v)
 {
-	CHAR ch,line[1024];
-	LONG i = 0, len = bf->TryReadBytes(&ch, 1);
+	Char ch,line[1024];
+	Int32 i = 0;
+	Int len = bf->TryReadBytes(&ch, 1);
 
 	if (len == 0)
-		return FALSE; // end of file
+		return false; // end of file
 
 	while (i<1024 && len == 1 && ch != '\n') 
 	{
@@ -16,7 +17,7 @@ Bool ReadLine(BaseFile *bf, String *v)
 		i++;
 	}
 	v->SetCString(line, i);
-	return TRUE;
+	return true;
 }
 
 
@@ -24,24 +25,24 @@ Bool ReadLine(BaseFile *bf, String *v)
 // Posted by Matthias Bober
 Bool WriteString(const String line, BaseFile* file)
 {
-	if(!file) return FALSE;
+	if(!file) return false;
 
-	CHAR *charline = NULL;
-	LONG strlength = line.GetCStringLen(STRINGENCODING_7BITHEX);
-	charline = (CHAR*)GeAlloc(strlength+1);
+	Char *charline = nullptr;
+	Int32 strlength = line.GetCStringLen(STRINGENCODING_7BITHEX);
+	charline = (Char*)NewMemClear(Char, strlength+1);
 
-	if(!charline) return FALSE;
+	if(!charline) return false;
 
 	strlength = line.GetCString(charline, strlength+1, STRINGENCODING_7BITHEX);
 
-	LONG i;
+	Int32 i;
 	for(i=0; i<strlength; i++) {
-		if(!file->WriteChar(charline[i])) return FALSE;
+		if(!file->WriteChar(charline[i])) return false;
 	}
 
-	GeFree(charline);
+	DeleteMem(charline);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -49,7 +50,7 @@ Bool WriteString(const String line, BaseFile* file)
 String ReplaceStr(String Original, String Search, String Replacement)
 {
 	String res = Original;
-	LONG i = 0;
+	Int32 i = 0;
 
 	while (res.FindFirst(Search, &i, i))
 	{
@@ -60,13 +61,13 @@ String ReplaceStr(String Original, String Search, String Replacement)
 	return res;
 }
 
-// If Long < 10, put a "0" in front of value (looks nicer for time and date)
-String LongToString2digits(LONG l)
+// If Int32 < 10, put a "0" in front of value (looks nicer for time and date)
+String LongToString2digits(Int32 l)
 {
 	if (l < 10)
-		return "0" + LongToString(l);
+		return "0" + String::IntToString(l);
 	else
-		return LongToString(l);
+		return String::IntToString(l);
 }
 
 
@@ -77,9 +78,9 @@ String GetTextContent(BaseFile *source)
 
 	String cs = String();
 	String Content = String();
-	VLONG length = source->GetLength();
+	Int length = source->GetLength();
 
-	for (VLONG i = 0; i < length; i++)
+	for (Int i = 0; i < length; i++)
 	{
 		if (ReadLine(source, &cs))
 			Content = Content + cs;
@@ -90,13 +91,13 @@ String GetTextContent(BaseFile *source)
 
 
 // Get String as Char Array (don't forget to free after use) and apply HTML encoding
-CHAR* ConvString(const String& s)
+Char* ConvString(const String& s)
 {
-	CHAR* code;
-	LONG len = s.GetCStringLen(STRINGENCODING_7BITHEX)+1;
+	Char* code;
+	Int32 len = s.GetCStringLen(STRINGENCODING_7BITHEX)+1;
 
-	code = (CHAR*)GeAllocNC(len);
-	if (code == NULL) return NULL;
+	code = (Char*)NewMem(Char, len);
+	if (code == nullptr) return nullptr;
 
 	s.GetCString(code, len, STRINGENCODING_HTML);
 	return code;
@@ -106,11 +107,11 @@ CHAR* ConvString(const String& s)
 // Substitute special characters by their HTML entities and return a String
 String ConvertHTMLchars(String tmpl)
 {
-	CHAR *html = ConvString(tmpl);
+	Char *html = ConvString(tmpl);
 	if(!html) return String();
 
 	String res = html;
-	GeFree(html);
+	DeleteMem(html);
 
 	return res;
 }
