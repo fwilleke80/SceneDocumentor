@@ -10,15 +10,12 @@
     <Filter Include="source\command">
       <UniqueIdentifier>{f338ba40-85e1-46a3-8667-a6f23ae2be80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\functions">
+      <UniqueIdentifier>{118ae5d0-0110-4a51-a4d7-b24e7484accf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="source\stringfunctions.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="source\documentorfunctions.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="source\tag\tComment.cpp">
@@ -39,19 +36,25 @@
     <ClCompile Include="source\command\createcommentnulls.cpp">
       <Filter>source\command</Filter>
     </ClCompile>
+    <ClCompile Include="source\documentorfunctions.cpp">
+      <Filter>source\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="source\stringfunctions.cpp">
+      <Filter>source\functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\stringfunctions.h">
-      <Filter>source</Filter>
-    </ClInclude>
-    <ClInclude Include="source\documentorfunctions.h">
-      <Filter>source</Filter>
-    </ClInclude>
     <ClInclude Include="source\tag\tCommentClass.h">
       <Filter>source\tag</Filter>
     </ClInclude>
     <ClInclude Include="source\main.h">
       <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\documentorfunctions.h">
+      <Filter>source\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="source\stringfunctions.h">
+      <Filter>source\functions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
