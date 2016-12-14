@@ -19,8 +19,8 @@
 		019FAE231E01A30E005D1F25 /* stringfunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 019FAE161E01A30E005D1F25 /* stringfunctions.h */; };
 		019FAE241E01A30E005D1F25 /* tComment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 019FAE181E01A30E005D1F25 /* tComment.cpp */; };
 		019FAE251E01A30E005D1F25 /* tCommentClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 019FAE191E01A30E005D1F25 /* tCommentClass.h */; };
-		019FAE281E01A437005D1F25 /* main.h in Headers */ = {isa = PBXBuildFile; fileRef = 019FAE271E01A437005D1F25 /* main.h */; };
 		019FAE2B1E01A73E005D1F25 /* commands.h in Headers */ = {isa = PBXBuildFile; fileRef = 019FAE2A1E01A73E005D1F25 /* commands.h */; };
+		019FAE301E01AAB2005D1F25 /* main.h in Headers */ = {isa = PBXBuildFile; fileRef = 019FAE2F1E01AAB2005D1F25 /* main.h */; };
 		A0A6683339F470FF41010000 /* libcinema.framework.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0A6683339F470FF41000000 /* libcinema.framework.a */; };
 /* End PBXBuildFile section */
 
@@ -61,8 +61,8 @@
 		019FAE161E01A30E005D1F25 /* stringfunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stringfunctions.h; path = source/stringfunctions.h; sourceTree = SOURCE_ROOT; };
 		019FAE181E01A30E005D1F25 /* tComment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tComment.cpp; sourceTree = "<group>"; };
 		019FAE191E01A30E005D1F25 /* tCommentClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tCommentClass.h; sourceTree = "<group>"; };
-		019FAE271E01A437005D1F25 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = main.h; path = ../../main.h; sourceTree = "<group>"; };
 		019FAE2A1E01A73E005D1F25 /* commands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = commands.h; sourceTree = "<group>"; };
+		019FAE2F1E01AAB2005D1F25 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = main.h; path = source/main.h; sourceTree = SOURCE_ROOT; };
 		8ACD68381C66E7D100F34089 /* sanitizerbase.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = sanitizerbase.xcconfig; path = ../../frameworks/settings/sanitizerbase.xcconfig; sourceTree = "<group>"; };
 		A08C5CDEA3A66833397B0000 /* SceneDocumentor.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = SceneDocumentor.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0A668333900000000000000 /* debugbase.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = debugbase.xcconfig; path = ../../frameworks/settings/debugbase.xcconfig; sourceTree = SOURCE_ROOT; };
@@ -149,8 +149,8 @@
 				019FAE0C1E01A30E005D1F25 /* command */,
 				019FAE121E01A30E005D1F25 /* documentorfunctions.cpp */,
 				019FAE131E01A30E005D1F25 /* documentorfunctions.h */,
-				019FAE271E01A437005D1F25 /* main.h */,
 				019FAE141E01A30E005D1F25 /* main.cpp */,
+				019FAE2F1E01AAB2005D1F25 /* main.h */,
 				019FAE151E01A30E005D1F25 /* stringfunctions.cpp */,
 				019FAE161E01A30E005D1F25 /* stringfunctions.h */,
 			);
@@ -174,8 +174,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				019FAE301E01AAB2005D1F25 /* main.h in Headers */,
 				019FAE201E01A30E005D1F25 /* documentorfunctions.h in Headers */,
-				019FAE281E01A437005D1F25 /* main.h in Headers */,
 				019FAE231E01A30E005D1F25 /* stringfunctions.h in Headers */,
 				019FAE251E01A30E005D1F25 /* tCommentClass.h in Headers */,
 				019FAE2B1E01A73E005D1F25 /* commands.h in Headers */,
