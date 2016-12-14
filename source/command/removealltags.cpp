@@ -3,9 +3,12 @@
 #include "documentorfunctions.h"
 #include "removealltags.h"
 #include "tCommentClass.h"
+#include "commands.h"
+#include "main.h"
+
 
 // ID obtained from www.plugincafe.com
-#define ID_REMOVEALLTAGS	1024696
+static const Int32 ID_REMOVEALLTAGS = 1024696;
 
 class CRemoveAllTags : public CommandData
 {
@@ -16,6 +19,7 @@ class CRemoveAllTags : public CommandData
 		virtual Bool Message(Int32 type, void* data);
 		virtual Int32 GetState(BaseDocument* doc);
 };
+
 
 void IterateObjectsForRemoval(BaseObject *op, Int32 &counter, Bool SelectedOnly, Bool JustTest)
 {
@@ -114,7 +118,7 @@ Int32 CRemoveAllTags::GetState(BaseDocument* doc)
 	return 0;
 }
 
-Bool RegisterRemoveAllTags(void)
+Bool RegisterRemoveAllTags()
 {
 	// decide by name if the plugin shall be registered - just for user convenience
 	String name=GeLoadString(IDS_REMOVEALLTAGS); if (!name.Content()) return true;

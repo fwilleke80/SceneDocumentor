@@ -6,8 +6,11 @@
 #include "tComment.h"
 #include "stringfunctions.h"
 #include "documentorfunctions.h"
+#include "commands.h"
+#include "main.h"
 
-#define ID_CREATEDOCUMENT	1024748		// ID obtained from www.plugincafe.com
+
+static const Int32 ID_CREATEDOCUMENT = 1024748;		// ID obtained from www.plugincafe.com
 
 // Template path
 #define TmplDir GeGetPluginPath() + "template"
@@ -43,6 +46,7 @@ public:
 	virtual Int32 Message(const BaseContainer &msg, BaseContainer &result);
 	virtual Bool CoreMessage(Int32 id, const BaseContainer &msg);
 };
+
 
 // Dialog elements
 enum
@@ -102,13 +106,13 @@ String ProcessTemplate(String tmpl, BaseDocument *doc, BaseContainer *settings)
 		ifn.SetSuffix("jpg");
 
 		// Image resolution
-		Int32 x = settings->GetInt32(IDC_CDOC_IMAGE_WIDTH);
-		Int32 y = settings->GetInt32(IDC_CDOC_IMAGE_HEIGHT);
+		Int32 imgWidth = settings->GetInt32(IDC_CDOC_IMAGE_WIDTH);
+		Int32 imgHeight = settings->GetInt32(IDC_CDOC_IMAGE_HEIGHT);
 
 		// Allocate & init bitmap
 		BaseBitmap *bmp = BaseBitmap::Alloc();
 		if (!bmp) goto AfterBitmap;
-		bmp->Init(x, y);
+		bmp->Init(imgWidth, imgHeight);
 
 		// Get Render Data
 		rd = doc->GetActiveRenderData();
@@ -116,8 +120,8 @@ String ProcessTemplate(String tmpl, BaseDocument *doc, BaseContainer *settings)
 
 		// Get Copy from & modify Render Data
 		BaseContainer rdc = rd->GetData();
-		rdc.SetInt32(RDATA_XRES, x);
-		rdc.SetInt32(RDATA_YRES, y);
+		rdc.SetInt32(RDATA_XRES, imgWidth);
+		rdc.SetInt32(RDATA_YRES, imgHeight);
 
 		// Set editor Rendering, if desired
 		if (imagesetting == IDC_CDOC_IMAGE_EDITOR)
@@ -138,7 +142,7 @@ String ProcessTemplate(String tmpl, BaseDocument *doc, BaseContainer *settings)
 			if (Result != IMAGERESULT_OK)
 				GeOutString(GeLoadString(IDS_RENDERIMAGE_ERRORMSG), GEMB_OK);
 			StatusClear();
-			res = ReplaceStr(res, "%DOC_IMAGE%", "<img class=\"rendering\" src=\"" + ifn.GetFile().GetString() + "\" alt=\"Rendering\" title=\"Rendering\" width=\"" + String::IntToString(x) + "\" height=\"" + String::IntToString(y) + "\" />");
+			res = ReplaceStr(res, "%DOC_IMAGE%", "<img class=\"rendering\" src=\"" + ifn.GetFile().GetString() + "\" alt=\"Rendering\" title=\"Rendering\" width=\"" + String::IntToString(imgWidth) + "\" height=\"" + String::IntToString(imgHeight) + "\" />");
 		}
 		else
 		{
@@ -200,7 +204,7 @@ AfterBitmap:
 	return res;
 }
 
-void IterateObjectsForDocumentation(BaseObject *op, Int32 &counter, BaseFile *bf, Int32 hLevel, Bool JustTest = false)
+void IterateObjectsForDocumentation(BaseObject *op, Int32 &counter, BaseFile *bf, Int32 hLevel, Bool JustTest)
 // Iterate all objects and their comment tags in the scene,
 // write info to output file
 {
@@ -647,7 +651,7 @@ Bool CCreateDocument::RestoreLayout(void *secret)
 	return dlg.RestoreLayout(ID_CREATEDOCUMENT, 0, secret);
 }
 
-Bool RegisterCreateDocument(void)
+Bool RegisterCreateDocument()
 {
 	// decide by name if the plugin shall be registered - just for user convenience
 	String name=GeLoadString(IDS_CREATEDOCUMENT); if (!name.Content()) return true;

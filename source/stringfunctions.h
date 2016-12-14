@@ -1,7 +1,8 @@
+#ifndef STRINGFUNCTIONS_H_
+#define STRINGFUNCTIONS_H_
+
 #include "c4d.h"
 
-#ifndef __COMMON_STRING_FUNCTIONS__
-#define __COMMON_STRING_FUNCTIONS__
 
 Bool ReadLine(BaseFile *bf, String *v);
 Bool WriteString(const String line, BaseFile* file);
@@ -11,4 +12,4 @@ String GetTextContent(BaseFile *source);
 Char* ConvString(const String& s);
 String ConvertHTMLchars(String tmpl);
 
-#endif
+#endif /* STRINGFUNCTIONS_H_ */

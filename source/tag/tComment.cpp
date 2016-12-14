@@ -5,8 +5,21 @@
 #include "tComment.h"
 #include "documentorfunctions.h"
 
-// Help path
-#define HelpFile GeGetPluginPath() + "help"
+
+NodeData* tComment::Alloc()
+{
+	return NewObjClear(tComment);
+}
+
+BaseBitmap* tComment::GetCustomIcon(Int32 index)
+{
+	return customIcon[index];
+}
+
+void tComment::SetCustomIcon(Int32 index, BaseBitmap *b)
+{
+	customIcon[index] = b;
+}
 
 // If the tag contains text, create a nullptr Object and
 // use the tag's object's name + the tag's content as

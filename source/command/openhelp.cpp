@@ -2,9 +2,12 @@
 #include "c4d_symbols.h" 
 #include "openhelp.h"
 #include "tCommentClass.h"
+#include "commands.h"
+#include "main.h"
+
 
 // ID obtained from www.plugincafe.com
-#define ID_OPENHELP	1024753
+static const Int32 ID_OPENHELP = 1024753;
 
 class COpenHelp : public CommandData
 {
@@ -14,6 +17,7 @@ class COpenHelp : public CommandData
 		virtual Bool Execute(BaseDocument* doc);
 		virtual Bool Message(Int32 type, void* data);
 };
+
 
 Bool COpenHelp::Execute(BaseDocument* doc)
 {
@@ -28,7 +32,7 @@ Bool COpenHelp::Message(Int32 type, void* data)
 	return SUPER::Message(type,data);
 }
 
-Bool RegisterOpenHelp(void)
+Bool RegisterOpenHelp()
 {
 	// decide by name if the plugin shall be registered - just for user convenience
 	String name=GeLoadString(IDS_OPENHELP); if (!name.Content()) return true;

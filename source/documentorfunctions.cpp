@@ -1,6 +1,7 @@
 #include "documentorfunctions.h"
 #include "tCommentClass.h"
 
+
 // Return true of Object "op" has any comment tags attached to it
 Bool ObjectHasComments(BaseObject *op)
 {

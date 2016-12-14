@@ -5,11 +5,13 @@
 #include "tCommentClass.h"
 #include "stringfunctions.h"
 #include "documentorfunctions.h"
+#include "commands.h"
+#include "main.h"
 
 
 // ID obtained from www.plugincafe.com
-#define ID_COMMENTINSPECTOR	1025157
-#define DOCUMENTOR_EVENT_MESSAGE	1025158
+static const Int32 ID_COMMENTINSPECTOR = 1025157;
+static const Int32 DOCUMENTOR_EVENT_MESSAGE = 1025158;
 
 
 /////////////////////////////////////////
@@ -87,7 +89,7 @@ String GetCommentsText(BaseObject *op)
 
 
 // Get object name and put decorative lines around it ;-)
-String GetObjectTitle(BaseObject *op, const String Decor = "==")
+String GetObjectTitle(BaseObject *op, const String Decor)
 {
 	if (op)
 		return Decor + " " + op->GetName() + " " + Decor;
@@ -281,7 +283,7 @@ Bool CCommentInspector::RestoreLayout(void *secret)
 /////////////////////////////////////////
 // Register function
 /////////////////////////////////////////
-Bool RegisterCommentInspector(void)
+Bool RegisterCommentInspector()
 {
 	// decide by name if the plugin shall be registered - just for user convenience
 	String name=GeLoadString(IDS_COMMENTINSPECTOR); if (!name.Content()) return true;
