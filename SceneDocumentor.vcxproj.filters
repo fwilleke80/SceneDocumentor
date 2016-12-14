@@ -50,5 +50,8 @@
     <ClInclude Include="source\tag\tCommentClass.h">
       <Filter>source\tag</Filter>
     </ClInclude>
+    <ClInclude Include="source\main.h">
+      <Filter>source</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
