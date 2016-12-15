@@ -1,8 +1,13 @@
 #include "main.h"
 
 
+#define PLUGIN_VERSION String("1.1")
+
+
 Bool PluginStart(void)
 {
+	GePrint("SceneDocumentor " + PLUGIN_VERSION);
+	
 	// Register plugins
 	if (!RegisterTComment()) return false;
 	if (!RegisterCreateCommentNulls()) return false;
