@@ -5,12 +5,25 @@
 #include "tComment.h"
 #include "documentorfunctions.h"
 
-// Help path
-#define HelpFile GeGetPluginPath() + "help"
 
-// If the tag contains text, create a Null Object and
+NodeData* tComment::Alloc()
+{
+	return NewObjClear(tComment);
+}
+
+BaseBitmap* tComment::GetCustomIcon(Int32 index)
+{
+	return customIcon[index];
+}
+
+void tComment::SetCustomIcon(Int32 index, BaseBitmap *b)
+{
+	customIcon[index] = b;
+}
+
+// If the tag contains text, create a nullptr Object and
 // use the tag's object's name + the tag's content as
-// name for the new Null Object.
+// name for the new nullptr Object.
 // Requires BaseDocument::Start() Undo to be called before calling this function.
 Bool tComment::CreateNullObj(BaseTag *tag, Bool IncludeOpName, Bool IncludeTitle, Bool IncludeIcon, BaseObject *parent)
 {
@@ -19,9 +32,9 @@ Bool tComment::CreateNullObj(BaseTag *tag, Bool IncludeOpName, Bool IncludeTitle
 
 	if (newname != "") {
 		// Get object of tag
-		BaseObject *op = tag->GetObject(); if (!op) return FALSE;
+		BaseObject *op = tag->GetObject(); if (!op) return false;
 
-		// Create new Null Object
+		// Create new nullptr Object
 		BaseObject *no = BaseObject::Alloc(Onull);
 
 		if (no) {
@@ -31,7 +44,7 @@ Bool tComment::CreateNullObj(BaseTag *tag, Bool IncludeOpName, Bool IncludeTitle
 				newname =  tag->GetDataInstance()->GetString(COMMENT_TITLE) + ": " + newname;
 
 			// Include Tag Icon
-			if (IncludeIcon && tag->GetDataInstance()->GetLong(COMMENT_ICONMODE) != COMMENT_ICONMODE_0)
+			if (IncludeIcon && tag->GetDataInstance()->GetInt32(COMMENT_ICONMODE) != COMMENT_ICONMODE_0)
 			{
 				if (newname.Content())
 					newname += " ";
@@ -47,7 +60,7 @@ Bool tComment::CreateNullObj(BaseTag *tag, Bool IncludeOpName, Bool IncludeTitle
 					newname = op->GetName() + ": " + newname;
 			}
 
-			// Set name to null object
+			// Set name to nullptr object
 			no->SetName(newname);
 
 			if (parent)
@@ -60,86 +73,94 @@ Bool tComment::CreateNullObj(BaseTag *tag, Bool IncludeOpName, Bool IncludeTitle
 			// Add Undo for creation for new object
 			op->GetDocument()->AddUndo(UNDOTYPE_NEW, no);
 
-			return TRUE;
+			return true;
 		}
 		else
-			return FALSE;
+			return false;
 	}
-	return FALSE;
+	return false;
 }
 
 Bool tComment::Init(GeListNode *node)
 {
+	if (!node)
+		return false;
+
 	// Get pointer to tag's Container
 	BaseTag			*tag  = (BaseTag*)node;
 	BaseContainer	*data = tag->GetDataInstance();
+	if (!data)
+		return false;
 
 	data->SetString(COMMENT_HELPTEXT, GeLoadString(IDS_TCOMMENT_HELPTEXT));
 	data->SetString(COMMENT_TITLE, GeLoadString(IDS_COMMENT_TITLE));
-	data->SetLong(COMMENT_ICONMODE, COMMENT_ICONMODE_0);
+	data->SetInt32(COMMENT_ICONMODE, COMMENT_ICONMODE_0);
 
 	// Load icons for tag
 	// ------------------
 
+	if (!customIcon.Resize(6))
+		return false;
+
 	// Standard icon
 	BaseBitmap *icon = BaseBitmap::Alloc();
-	if (!icon) return FALSE;
+	if (!icon) return false;
 	Filename fn = GeGetPluginPath() + "res" + "tComment.tif";
 	icon->Init(fn);
 	SetCustomIcon(0, icon);
 
 	// Special Icon 1
 	icon = BaseBitmap::Alloc();
-	if (!icon) return FALSE;
+	if (!icon) return false;
 	fn = GeGetPluginPath() + "res" + "tComment_1.tif";
 	icon->Init(fn);
 	SetCustomIcon(1, icon);
 
 	// Special Icon 2
 	icon = BaseBitmap::Alloc();
-	if (!icon) return FALSE;
+	if (!icon) return false;
 	fn = GeGetPluginPath() + "res" + "tComment_2.tif";
 	icon->Init(fn);
 	SetCustomIcon(2, icon);
 
 	// Special Icon 3
 	icon = BaseBitmap::Alloc();
-	if (!icon) return FALSE;
+	if (!icon) return false;
 	fn = GeGetPluginPath() + "res" + "tComment_3.tif";
 	icon->Init(fn);
 	SetCustomIcon(3, icon);
 
 	// Special Icon 4
 	icon = BaseBitmap::Alloc();
-	if (!icon) return FALSE;
+	if (!icon) return false;
 	fn = GeGetPluginPath() + "res" + "tComment_4.tif";
 	icon->Init(fn);
 	SetCustomIcon(4, icon);
 
 	// Special Icon 5
 	icon = BaseBitmap::Alloc();
-	if (!icon) return FALSE;
+	if (!icon) return false;
 	fn = GeGetPluginPath() + "res" + "tComment_5.tif";
 	icon->Init(fn);
 	SetCustomIcon(5, icon);
 
-	return TRUE;
+	return true;
 }
 
 Bool tComment::GetDDescription(GeListNode *node, Description *description, DESCFLAGS_DESC &flags)
 {
 	// Load description (user interface)
-	if (!description->LoadDescription(ID_TCOMMENT)) return FALSE;
+	if (!description->LoadDescription(ID_TCOMMENT)) return false;
 	flags |= DESCFLAGS_DESC_LOADED;
 
-	return TRUE;
+	return true;
 }
 
-Bool tComment::Message(GeListNode* node, LONG type, void* data)
+Bool tComment::Message(GeListNode* node, Int32 type, void* data)
 {
-	BaseTag *tag = (BaseTag*)node; if(!tag) return TRUE;
-	BaseContainer *bc = tag->GetDataInstance(); if (!bc) return TRUE;
-	BaseDocument *doc = tag->GetDocument(); if (!doc) return TRUE;
+	BaseTag *tag = (BaseTag*)node; if(!tag) return true;
+	BaseContainer *bc = tag->GetDataInstance(); if (!bc) return true;
+	BaseDocument *doc = tag->GetDocument(); if (!doc) return true;
 
 	switch (type)
 	{
@@ -150,15 +171,15 @@ Bool tComment::Message(GeListNode* node, LONG type, void* data)
 				switch (dc->id[0].id) {
 					case COMMENT_CREATEOBJ:
 					{
-						// Create Null Object
+						// Create nullptr Object
 						doc->StartUndo();
 
 						// Get user options
 						Bool IncludeOpName = GeOutString(GeLoadString(IDS_CREATECOMMENTNULL_INC_OPNAME), GEMB_YESNO) == GEMB_R_YES;
 						Bool IncludeTitle = GeOutString(GeLoadString(IDS_CREATECOMMENTNULL_INC_TITLE), GEMB_YESNO) == GEMB_R_YES;
 
-						// Create Null object for this tag
-						CreateNullObj(tag, IncludeOpName, IncludeTitle, TRUE, NULL);
+						// Create nullptr object for this tag
+						CreateNullObj(tag, IncludeOpName, IncludeTitle, true, nullptr);
 
 						doc->EndUndo();
 						break;
@@ -181,8 +202,9 @@ Bool tComment::Message(GeListNode* node, LONG type, void* data)
 				GetCustomIconData *cid = (GetCustomIconData*)data;
 				IconData *id = cid->dat;
 
-				if (id) {
-					switch (bc->GetLong(COMMENT_ICONMODE))
+				if (id)
+				{
+					switch (bc->GetInt32(COMMENT_ICONMODE))
 					{
 						case COMMENT_ICONMODE_0:
 							id->bmp = GetCustomIcon(0);
@@ -214,7 +236,7 @@ Bool tComment::Message(GeListNode* node, LONG type, void* data)
 					id->h = 32;
 
 					// Yep, we changed something
-					cid->filled = TRUE;
+					cid->filled = true;
 				}
 				break;
 			}
@@ -222,9 +244,11 @@ Bool tComment::Message(GeListNode* node, LONG type, void* data)
 
 	return SUPER::Message(node,type,data);
 }
-Bool RegisterTComment(void)
+
+
+Bool RegisterTComment()
 {
 	// decide by name if the plugin shall be registered - just for user convenience
-	String name=GeLoadString(IDS_TCOMMENT); if (!name.Content()) return TRUE;
+	String name=GeLoadString(IDS_TCOMMENT); if (!name.Content()) return true;
 	return RegisterTagPlugin(ID_TCOMMENT, name, TAG_VISIBLE|TAG_MULTIPLE, tComment::Alloc, "tComment", AutoBitmap("tComment.tif"), 0);
 }

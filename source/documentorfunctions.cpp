@@ -1,34 +1,35 @@
 #include "documentorfunctions.h"
 #include "tCommentClass.h"
 
-// Return TRUE of Object "op" has any comment tags attached to it
+
+// Return true of Object "op" has any comment tags attached to it
 Bool ObjectHasComments(BaseObject *op)
 {
-	BaseTag *tag = NULL;
+	BaseTag *tag = nullptr;
 
 	// Iterate tags of object
 	tag = op->GetFirstTag();
 	while (tag)
 	{
 		if (tag->GetType() == ID_TCOMMENT)
-			return TRUE;
+			return true;
 		else
 			tag = tag->GetNext();	// Get next tag
 	}
-	return FALSE;
+	return false;
 }
 
 
 // Iterate all objects and their comment tags in the scene,
-// return TRUE if any were found
+// return true if any were found
 Bool SearchForComments(BaseObject *op)
 {
-	//BaseTag *tag = NULL;
+	//BaseTag *tag = nullptr;
 
 	while (op)
 	{
 		if (ObjectHasComments(op))
-			return TRUE;
+			return true;
 
 		// Iterate hierarchy vertical
 		if (op->GetDown())
@@ -38,12 +39,12 @@ Bool SearchForComments(BaseObject *op)
 		op = op->GetNext();
 	}
 
-	return FALSE;
+	return false;
 }
 
 // Returns the name/string for the currently selected item in a cycle
-// cycle_id MUST refer to a LONG cycle!
-String GetSelectedCycleElementName(BaseList2D *node, LONG cycle_id)
+// cycle_id MUST refer to a Int32 cycle!
+String GetSelectedCycleElementName(BaseList2D *node, Int32 cycle_id)
 {
 	// We need these two
 	AutoAlloc<AtomArray> ar; if(!ar) return String();
@@ -60,5 +61,5 @@ String GetSelectedCycleElementName(BaseList2D *node, LONG cycle_id)
 	BaseContainer c = b->GetContainer(DESC_CYCLE);
 
 	// Return the label string of the selected cycle option
-	return c.GetString(node->GetDataInstance()->GetLong(cycle_id));
+	return c.GetString(node->GetDataInstance()->GetInt32(cycle_id));
 }

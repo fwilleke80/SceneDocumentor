@@ -3,9 +3,12 @@
 #include "documentorfunctions.h"
 #include "removealltags.h"
 #include "tCommentClass.h"
+#include "commands.h"
+#include "main.h"
+
 
 // ID obtained from www.plugincafe.com
-#define ID_REMOVEALLTAGS	1024696
+static const Int32 ID_REMOVEALLTAGS = 1024696;
 
 class CRemoveAllTags : public CommandData
 {
@@ -13,17 +16,18 @@ class CRemoveAllTags : public CommandData
 
 	public:
 		virtual Bool Execute(BaseDocument* doc);
-		virtual Bool Message(LONG type, void* data);
-		virtual LONG GetState(BaseDocument* doc);
+		virtual Bool Message(Int32 type, void* data);
+		virtual Int32 GetState(BaseDocument* doc);
 };
 
-void IterateObjectsForRemoval(BaseObject *op, LONG &counter, Bool SelectedOnly, Bool JustTest)
+
+void IterateObjectsForRemoval(BaseObject *op, Int32 &counter, Bool SelectedOnly, Bool JustTest)
 {
 	if (!op) return;	// Cancel if no object is passed
 
-	BaseTag *tag = NULL;
+	BaseTag *tag = nullptr;
 	BaseDocument *doc = op->GetDocument();
-	BaseTag *deltag = NULL;
+	BaseTag *deltag = nullptr;
 
 	while (op) {
 		// If only selected object should be processed,
@@ -40,7 +44,7 @@ void IterateObjectsForRemoval(BaseObject *op, LONG &counter, Bool SelectedOnly, 
 					doc->AddUndo(UNDOTYPE_DELETE, deltag);
 					deltag->Remove();		// Remove old tag from scene
 					BaseTag::Free(deltag);	// Free old tag
-					deltag = NULL;
+					deltag = nullptr;
 					counter++;
 				}
 				else {
@@ -66,10 +70,10 @@ Iteration:
 
 Bool CRemoveAllTags::Execute(BaseDocument* doc)
 {
-	LONG Counter = 0;
+	Int32 Counter = 0;
 
 	if (GeOutString(GeLoadString(IDS_REMOVEALLTAGS_QUESTION), GEMB_YESNO) == GEMB_R_NO)
-		return FALSE;
+		return false;
 
     // Start Undo
 	doc->StartUndo();
@@ -81,7 +85,7 @@ Bool CRemoveAllTags::Execute(BaseDocument* doc)
 
     // Iterate all Objects and their tags. If Comment tag found, delete it
 	BaseObject *op = doc->GetFirstObject();
-	IterateObjectsForRemoval(op, Counter, FALSE /*SelectedOnly*/, FALSE);
+	IterateObjectsForRemoval(op, Counter, false /*SelectedOnly*/, false);
 
 	// Finalize Undo
 	doc->EndUndo();
@@ -89,24 +93,24 @@ Bool CRemoveAllTags::Execute(BaseDocument* doc)
 	// Redraw viewports
 	EventAdd(EVENT_FORCEREDRAW);
 
-	String Msg = String(GeLoadString(IDS_REMOVEALLTAGS_STATUS, LongToString(Counter)));
+	String Msg = String(GeLoadString(IDS_REMOVEALLTAGS_STATUS, String::IntToString(Counter)));
 	StatusSetText(Msg);
 
-	return TRUE;
+	return true;
 }
 
-Bool CRemoveAllTags::Message(LONG type, void* data)
+Bool CRemoveAllTags::Message(Int32 type, void* data)
 {
 	return SUPER::Message(type,data);
 }
 
-LONG CRemoveAllTags::GetState(BaseDocument* doc)
+Int32 CRemoveAllTags::GetState(BaseDocument* doc)
 {
 	BaseObject *op = doc->GetFirstObject();
 	if (!op) return 0;
 
-	LONG Counter = 0;
-	IterateObjectsForRemoval(op, Counter, FALSE, TRUE);
+	Int32 Counter = 0;
+	IterateObjectsForRemoval(op, Counter, false, true);
 
 	if (Counter > 0)
 		return CMD_ENABLED;
@@ -114,9 +118,9 @@ LONG CRemoveAllTags::GetState(BaseDocument* doc)
 	return 0;
 }
 
-Bool RegisterRemoveAllTags(void)
+Bool RegisterRemoveAllTags()
 {
 	// decide by name if the plugin shall be registered - just for user convenience
-	String name=GeLoadString(IDS_REMOVEALLTAGS); if (!name.Content()) return TRUE;
-	return RegisterCommandPlugin(ID_REMOVEALLTAGS, name, 0, AutoBitmap("CRemoveAllTags.tif"), GeLoadString(IDS_REMOVEALLTAGS_HELP), gNew CRemoveAllTags);
+	String name=GeLoadString(IDS_REMOVEALLTAGS); if (!name.Content()) return true;
+	return RegisterCommandPlugin(ID_REMOVEALLTAGS, name, 0, AutoBitmap("CRemoveAllTags.tif"), GeLoadString(IDS_REMOVEALLTAGS_HELP), NewObjClear(CRemoveAllTags));
 }

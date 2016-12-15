@@ -6,8 +6,11 @@
 #include "tComment.h"
 #include "stringfunctions.h"
 #include "documentorfunctions.h"
+#include "commands.h"
+#include "main.h"
 
-#define ID_CREATEDOCUMENT	1024748		// ID obtained from www.plugincafe.com
+
+static const Int32 ID_CREATEDOCUMENT = 1024748;		// ID obtained from www.plugincafe.com
 
 // Template path
 #define TmplDir GeGetPluginPath() + "template"
@@ -39,10 +42,11 @@ public:
 	DocCreationDialog(void);
 	virtual Bool CreateLayout(void);
 	virtual Bool InitValues(void);
-	virtual Bool Command(LONG id, const BaseContainer &msg);
-	virtual LONG Message(const BaseContainer &msg, BaseContainer &result);
-	virtual Bool CoreMessage(LONG id, const BaseContainer &msg);
+	virtual Bool Command(Int32 id, const BaseContainer &msg);
+	virtual Int32 Message(const BaseContainer &msg, BaseContainer &result);
+	virtual Bool CoreMessage(Int32 id, const BaseContainer &msg);
 };
+
 
 // Dialog elements
 enum
@@ -74,10 +78,10 @@ enum
 /////////////////////////////////////////
 // General functions
 /////////////////////////////////////////
-static void ShowProgress(Real p, RENDERPROGRESSTYPE progress_type, void *private_data)
+static void ShowProgress(Float p, RENDERPROGRESSTYPE progress_type, void *private_data)
 // Hook into RenderDocument() to show progress in status bar (doesn't seem to work as expected)
 {
-	StatusSetBar((LONG)(p * 100));
+	StatusSetBar((Int32)(p * 100));
 }
 
 String ProcessTemplate(String tmpl, BaseDocument *doc, BaseContainer *settings)
@@ -89,26 +93,26 @@ String ProcessTemplate(String tmpl, BaseDocument *doc, BaseContainer *settings)
 	String title = settings->GetString(IDC_CDOC_TITLE);
 	String intro = settings->GetString(IDC_CDOC_INTROTEXT);
 	String author = settings->GetString(IDC_CDOC_AUTHOR);
-	LONG imagesetting = settings->GetLong(IDC_CDOC_IMAGE, IDC_CDOC_IMAGE_EDITOR);
+	Int32 imagesetting = settings->GetInt32(IDC_CDOC_IMAGE, IDC_CDOC_IMAGE_EDITOR);
 
 	// If Image placeholder used in template, create image
-	LONG x = 0;
+	Int32 x = 0;
 	if (res.FindFirst("%DOC_IMAGE%", &x))
 	{
-		RenderData *rd = NULL;
+		RenderData *rd = nullptr;
 
 		// Create Filename
 		Filename ifn = Filename(settings->GetString(IDC_CDOC_FILENAME));
 		ifn.SetSuffix("jpg");
 
 		// Image resolution
-		LONG x = settings->GetLong(IDC_CDOC_IMAGE_WIDTH);
-		LONG y = settings->GetLong(IDC_CDOC_IMAGE_HEIGHT);
+		Int32 imgWidth = settings->GetInt32(IDC_CDOC_IMAGE_WIDTH);
+		Int32 imgHeight = settings->GetInt32(IDC_CDOC_IMAGE_HEIGHT);
 
 		// Allocate & init bitmap
 		BaseBitmap *bmp = BaseBitmap::Alloc();
 		if (!bmp) goto AfterBitmap;
-		bmp->Init(x, y);
+		bmp->Init(imgWidth, imgHeight);
 
 		// Get Render Data
 		rd = doc->GetActiveRenderData();
@@ -116,29 +120,29 @@ String ProcessTemplate(String tmpl, BaseDocument *doc, BaseContainer *settings)
 
 		// Get Copy from & modify Render Data
 		BaseContainer rdc = rd->GetData();
-		rdc.SetLong(RDATA_XRES, x);
-		rdc.SetLong(RDATA_YRES, y);
+		rdc.SetInt32(RDATA_XRES, imgWidth);
+		rdc.SetInt32(RDATA_YRES, imgHeight);
 
 		// Set editor Rendering, if desired
 		if (imagesetting == IDC_CDOC_IMAGE_EDITOR)
 		{
-			rdc.SetLong(RDATA_RENDERENGINE, RDATA_RENDERENGINE_PREVIEWSOFTWARE);	// R11
-			rdc.SetLong(RDATA_RENDERASEDITOR, 1);									// R10
+			rdc.SetInt32(RDATA_RENDERENGINE, RDATA_RENDERENGINE_PREVIEWSOFTWARE);	// R11
+			rdc.SetInt32(RDATA_RENDERASEDITOR, 1);									// R10
 		}
 
 		// Render image
 		StatusSetText(GeLoadString(IDS_RENDERIMAGE_RUNNING));
-		RENDERRESULT renderres = RenderDocument(doc, rdc, ShowProgress, NULL, bmp, RENDERFLAGS_EXTERNAL, NULL);
+		RENDERRESULT renderres = RenderDocument(doc, rdc, ShowProgress, nullptr, bmp, RENDERFLAGS_EXTERNAL, nullptr);
 		if (renderres == RENDERRESULT_OK)
 		{
 			BaseContainer imgdata;
-			imgdata.SetLong(JPGSAVER_QUALITY, 90);
-			imgdata.SetLong(IMAGESAVER_DPI, 96);
+			imgdata.SetInt32(JPGSAVER_QUALITY, 90);
+			imgdata.SetInt32(IMAGESAVER_DPI, 96);
 			IMAGERESULT Result = bmp->Save(ifn, FILTER_JPG, &imgdata, SAVEBIT_0);
 			if (Result != IMAGERESULT_OK)
 				GeOutString(GeLoadString(IDS_RENDERIMAGE_ERRORMSG), GEMB_OK);
 			StatusClear();
-			res = ReplaceStr(res, "%DOC_IMAGE%", "<img class=\"rendering\" src=\"" + ifn.GetFile().GetString() + "\" alt=\"Rendering\" title=\"Rendering\" width=\"" + LongToString(x) + "\" height=\"" + LongToString(y) + "\" />");
+			res = ReplaceStr(res, "%DOC_IMAGE%", "<img class=\"rendering\" src=\"" + ifn.GetFile().GetString() + "\" alt=\"Rendering\" title=\"Rendering\" width=\"" + String::IntToString(imgWidth) + "\" height=\"" + String::IntToString(imgHeight) + "\" />");
 		}
 		else
 		{
@@ -177,12 +181,12 @@ AfterBitmap:
 	res = ReplaceStr(res, "%DOC_GENERATOR%", "FileDocumentor, www.c4d-jack.de");
 
 	// Date variables
-	LONG Year;
-	LONG Month;
-	LONG Day;
-	LONG Hour;
-	LONG Minute;
-	LONG Second;
+	Int32 Year;
+	Int32 Month;
+	Int32 Day;
+	Int32 Hour;
+	Int32 Minute;
+	Int32 Second;
 	DateTime dt;
 	GetDateTimeNow(dt);
 	Year = dt.year;
@@ -193,18 +197,18 @@ AfterBitmap:
 	Second = dt.second;
 
 	// Date placeholders
-	res = ReplaceStr(res, "%DOC_DATE%", LongToString(Year) + "-" + LongToString2digits(Month) + "-" + LongToString2digits(Day));
+	res = ReplaceStr(res, "%DOC_DATE%", String::IntToString(Year) + "-" + LongToString2digits(Month) + "-" + LongToString2digits(Day));
 	res = ReplaceStr(res, "%DOC_TIME%", LongToString2digits(Hour) + ":" + LongToString2digits(Minute) + ":" + LongToString2digits(Second));
-	res = ReplaceStr(res, "%DOC_YEAR%", LongToString(Year));
+	res = ReplaceStr(res, "%DOC_YEAR%", String::IntToString(Year));
 
 	return res;
 }
 
-void IterateObjectsForDocumentation(BaseObject *op, LONG &counter, BaseFile *bf, LONG hLevel, Bool JustTest = FALSE)
+void IterateObjectsForDocumentation(BaseObject *op, Int32 &counter, BaseFile *bf, Int32 hLevel, Bool JustTest)
 // Iterate all objects and their comment tags in the scene,
 // write info to output file
 {
-	BaseTag *tag = NULL;
+	BaseTag *tag = nullptr;
 	//BaseDocument *doc = op->GetDocument();
 	String content = String();
 	String opname = String();
@@ -225,7 +229,7 @@ void IterateObjectsForDocumentation(BaseObject *op, LONG &counter, BaseFile *bf,
 				{
 					tagname = tag->GetDataInstance()->GetString(COMMENT_TITLE);
 					content = tag->GetDataInstance()->GetString(COMMENT_TEXT);
-					if (tag->GetDataInstance()->GetLong(COMMENT_ICONMODE) != COMMENT_ICONMODE_0)
+					if (tag->GetDataInstance()->GetInt32(COMMENT_ICONMODE) != COMMENT_ICONMODE_0)
 					{
 						icontxt = " [" + GetSelectedCycleElementName(tag, COMMENT_ICONMODE) + "]";
 					}
@@ -240,8 +244,8 @@ void IterateObjectsForDocumentation(BaseObject *op, LONG &counter, BaseFile *bf,
 					// Write object name, tag name and comment text.
 					// Use standard Heading tags + CSS classes named after the hierarchy level of the current object
 					// To style the document, edit res\style.css and refer to the CSS classes
-					WriteString("<h2 class=\"obj" + LongToString(hLevel) + "\">" + GeLoadString(IDS_CDOC_OBJECT) + " \"" + opname + "\"</h2>\n", bf);
-					WriteString("<h3 class=\"tag" + LongToString(hLevel) + "\">" + tagname + icontxt + "</h3>\n", bf);
+					WriteString("<h2 class=\"obj" + String::IntToString(hLevel) + "\">" + GeLoadString(IDS_CDOC_OBJECT) + " \"" + opname + "\"</h2>\n", bf);
+					WriteString("<h3 class=\"tag" + String::IntToString(hLevel) + "\">" + tagname + icontxt + "</h3>\n", bf);
 					WriteString("<p class=\"comment\">" + content + "</p>\n", bf);
 				}
 				tag = tag->GetNext();	// Get next tag
@@ -265,11 +269,11 @@ void IterateObjectsForDocumentation(BaseObject *op, LONG &counter, BaseFile *bf,
 /////////////////////////////////////////
 Bool DocCreationDialog::CreateDocument(BaseDocument* doc, BaseContainer *settings)
 {
-	LONG Counter = 0;			// Counter for processed comment tags
+	Int32 Counter = 0;			// Counter for processed comment tags
 	Filename HEADfilename = TmplDir + "header.html";
 	Filename FOOTfilename = TmplDir + "footer.html";
-	BaseFile *bf = NULL;		// File to be created
-	BaseFile *tmpl = NULL;		// HTML template file(s)
+	BaseFile *bf = nullptr;		// File to be created
+	BaseFile *tmpl = nullptr;		// HTML template file(s)
 	String Cnt = String();		// File content
 	Bool OpenDocument = settings->GetBool(IDC_CDOC_OPENDOCUMENT);
 
@@ -284,7 +288,7 @@ Bool DocCreationDialog::CreateDocument(BaseDocument* doc, BaseContainer *setting
 	if (DocFilename.GetString() != "")
 	{
 		// Get first object in scene
-		BaseObject *op = doc->GetFirstObject(); if (!op) return FALSE;
+		BaseObject *op = doc->GetFirstObject(); if (!op) return false;
 
 		// Allocate files
 		bf = BaseFile::Alloc(); if (!bf) goto CancelError;
@@ -308,7 +312,7 @@ Bool DocCreationDialog::CreateDocument(BaseDocument* doc, BaseContainer *setting
 		}
 
 		// Iterate scene and generate document's main contents
-		IterateObjectsForDocumentation(op, Counter, bf, 2, FALSE);
+		IterateObjectsForDocumentation(op, Counter, bf, 2, false);
 
 		// Process footer template
 		if (tmpl->Open(FOOTfilename))
@@ -338,7 +342,7 @@ Bool DocCreationDialog::CreateDocument(BaseDocument* doc, BaseContainer *setting
 	// Clear Status Bar
 	StatusClear();
 
-	return TRUE;
+	return true;
 
 	// If anything fishy happened...
 CancelError:
@@ -349,7 +353,7 @@ CancelError:
 	// Clear Status Bar
 	StatusClear();
 
-	return FALSE;
+	return false;
 }
 
 /////////////////////////////////////////
@@ -476,7 +480,7 @@ Bool DocCreationDialog::InitValues(void)
 // Set default values for dialog elements
 {
 	// first call the parent instance
-	if (!GeDialog::InitValues()) return FALSE;
+	if (!GeDialog::InitValues()) return false;
 
 	// Title
 	String title = GetActiveDocument()->GetDocumentName().GetString();
@@ -489,19 +493,19 @@ Bool DocCreationDialog::InitValues(void)
 	SetString(IDC_CDOC_AUTHOR, author);
 
 	// Embedded Image Radio Buttons
-	SetLong(IDC_CDOC_IMAGE, IDC_CDOC_IMAGE_EDITOR);
+	SetInt32(IDC_CDOC_IMAGE, IDC_CDOC_IMAGE_EDITOR);
 
 	// Embedded Image size
-	SetLong(IDC_CDOC_IMAGE_WIDTH, 320);
-	SetLong(IDC_CDOC_IMAGE_HEIGHT, 240);
+	SetInt32(IDC_CDOC_IMAGE_WIDTH, 320);
+	SetInt32(IDC_CDOC_IMAGE_HEIGHT, 240);
 
 	// Settings
-	SetBool(IDC_CDOC_OPENDOCUMENT, TRUE);
+	SetBool(IDC_CDOC_OPENDOCUMENT, true);
 
-	return TRUE;
+	return true;
 }
 
-Bool DocCreationDialog::Command(LONG id, const BaseContainer &msg)
+Bool DocCreationDialog::Command(Int32 id, const BaseContainer &msg)
 // A command button in the dialog has been clicked
 {
 	BaseDocument *doc = GetActiveDocument();
@@ -533,13 +537,13 @@ Bool DocCreationDialog::Command(LONG id, const BaseContainer &msg)
 			settings.SetString(IDC_CDOC_INTROTEXT, intro);
 
 			// Settings for embedded image
-			LONG imagesetting = 0;
-			GetLong(IDC_CDOC_IMAGE, imagesetting);
-			settings.SetLong(IDC_CDOC_IMAGE, imagesetting);
-			GetLong(IDC_CDOC_IMAGE_WIDTH, imagesetting);
-			settings.SetLong(IDC_CDOC_IMAGE_WIDTH, imagesetting);
-			GetLong(IDC_CDOC_IMAGE_HEIGHT, imagesetting);
-			settings.SetLong(IDC_CDOC_IMAGE_HEIGHT, imagesetting);
+			Int32 imagesetting = 0;
+			GetInt32(IDC_CDOC_IMAGE, imagesetting);
+			settings.SetInt32(IDC_CDOC_IMAGE, imagesetting);
+			GetInt32(IDC_CDOC_IMAGE_WIDTH, imagesetting);
+			settings.SetInt32(IDC_CDOC_IMAGE_WIDTH, imagesetting);
+			GetInt32(IDC_CDOC_IMAGE_HEIGHT, imagesetting);
+			settings.SetInt32(IDC_CDOC_IMAGE_HEIGHT, imagesetting);
 
 			// More settings
 			Bool val;
@@ -556,7 +560,7 @@ Bool DocCreationDialog::Command(LONG id, const BaseContainer &msg)
 			fn.SetFile(doc->GetDocumentName());
 			fn.SetSuffix("html");
 			String DlgTitle = GeLoadString(IDS_CREATEDOCUMENT_DLGTITLE_SAVEFILE);
-			if (!fn.FileSelect(FILESELECTTYPE_ANYTHING, FILESELECT_SAVE, DlgTitle)) return FALSE;
+			if (!fn.FileSelect(FILESELECTTYPE_ANYTHING, FILESELECT_SAVE, DlgTitle)) return false;
 			SetString(IDC_CDOC_FILENAME, fn.GetString());
 			break;
 		}
@@ -573,10 +577,10 @@ Bool DocCreationDialog::Command(LONG id, const BaseContainer &msg)
 				GeOutString(GeLoadString(IDS_HELP_ERROR), GEMB_OK);
 		}
 	}
-	return TRUE;
+	return true;
 }
 
-Bool DocCreationDialog::CoreMessage(LONG id, const BaseContainer &msg)
+Bool DocCreationDialog::CoreMessage(Int32 id, const BaseContainer &msg)
 {
 	switch (id)
 	{
@@ -589,12 +593,12 @@ Bool DocCreationDialog::CoreMessage(LONG id, const BaseContainer &msg)
 	return GeDialog::CoreMessage(id,msg);
 }
 
-LONG DocCreationDialog::Message(const BaseContainer &msg, BaseContainer &result)
+Int32 DocCreationDialog::Message(const BaseContainer &msg, BaseContainer &result)
 // Recieve a GUI message
 // (in this case it's just used for Enabling/Disabling the dialog elements)
 {
 	// Always disable Filename text field
-	Enable(IDC_CDOC_FILENAME, FALSE);
+	Enable(IDC_CDOC_FILENAME, false);
 
 	// Enable/Disable Generate Button
 	String fn = String();
@@ -616,20 +620,20 @@ private:
 
 public:
 	virtual Bool Execute(BaseDocument* doc);
-	virtual LONG GetState(BaseDocument* doc);
+	virtual Int32 GetState(BaseDocument* doc);
 	virtual Bool RestoreLayout(void *secret);
 };
 
 /////////////////////////////////////////
 // Command functions
 /////////////////////////////////////////
-LONG CCreateDocument::GetState(BaseDocument* doc)
+Int32 CCreateDocument::GetState(BaseDocument* doc)
 {
 	BaseObject *op = doc->GetFirstObject();
 	if (!op) return 0;
 
-	LONG Counter = 0;
-	IterateObjectsForDocumentation(op, Counter, NULL, 1, TRUE);
+	Int32 Counter = 0;
+	IterateObjectsForDocumentation(op, Counter, nullptr, 1, true);
 
 	if (Counter > 0)
 		return CMD_ENABLED;
@@ -647,9 +651,9 @@ Bool CCreateDocument::RestoreLayout(void *secret)
 	return dlg.RestoreLayout(ID_CREATEDOCUMENT, 0, secret);
 }
 
-Bool RegisterCreateDocument(void)
+Bool RegisterCreateDocument()
 {
 	// decide by name if the plugin shall be registered - just for user convenience
-	String name=GeLoadString(IDS_CREATEDOCUMENT); if (!name.Content()) return TRUE;
-	return RegisterCommandPlugin(ID_CREATEDOCUMENT, name, 0, AutoBitmap("CCreateDocument.tif"), GeLoadString(IDS_CREATEDOCUMENT_HELP), gNew CCreateDocument);
+	String name=GeLoadString(IDS_CREATEDOCUMENT); if (!name.Content()) return true;
+	return RegisterCommandPlugin(ID_CREATEDOCUMENT, name, 0, AutoBitmap("CCreateDocument.tif"), GeLoadString(IDS_CREATEDOCUMENT_HELP), NewObjClear(CCreateDocument));
 }

@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{21895B69-DE91-7035-0000-0000CA90681B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\tag">
+      <UniqueIdentifier>{f09c2333-0084-4735-9127-0611fc6307b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\command">
+      <UniqueIdentifier>{f338ba40-85e1-46a3-8667-a6f23ae2be80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\functions">
+      <UniqueIdentifier>{118ae5d0-0110-4a51-a4d7-b24e7484accf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\tag\tComment.cpp">
+      <Filter>source\tag</Filter>
+    </ClCompile>
+    <ClCompile Include="source\command\createdocument.cpp">
+      <Filter>source\command</Filter>
+    </ClCompile>
+    <ClCompile Include="source\command\openhelp.cpp">
+      <Filter>source\command</Filter>
+    </ClCompile>
+    <ClCompile Include="source\command\removealltags.cpp">
+      <Filter>source\command</Filter>
+    </ClCompile>
+    <ClCompile Include="source\command\commentinspector.cpp">
+      <Filter>source\command</Filter>
+    </ClCompile>
+    <ClCompile Include="source\command\createcommentnulls.cpp">
+      <Filter>source\command</Filter>
+    </ClCompile>
+    <ClCompile Include="source\documentorfunctions.cpp">
+      <Filter>source\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="source\stringfunctions.cpp">
+      <Filter>source\functions</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\tag\tCommentClass.h">
+      <Filter>source\tag</Filter>
+    </ClInclude>
+    <ClInclude Include="source\main.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\documentorfunctions.h">
+      <Filter>source\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="source\stringfunctions.h">
+      <Filter>source\functions</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -5,11 +5,13 @@
 #include "tCommentClass.h"
 #include "stringfunctions.h"
 #include "documentorfunctions.h"
+#include "commands.h"
+#include "main.h"
 
 
 // ID obtained from www.plugincafe.com
-#define ID_COMMENTINSPECTOR	1025157
-#define DOCUMENTOR_EVENT_MESSAGE	1025158
+static const Int32 ID_COMMENTINSPECTOR = 1025157;
+static const Int32 DOCUMENTOR_EVENT_MESSAGE = 1025158;
 
 
 /////////////////////////////////////////
@@ -26,8 +28,8 @@ public:
 	CommentInspectorDialog(void);
 	virtual Bool CreateLayout(void);
 	virtual Bool InitValues(void);
-	virtual LONG Message(const BaseContainer &msg, BaseContainer &result);
-	virtual Bool CoreMessage(LONG id, const BaseContainer &msg);
+	virtual Int32 Message(const BaseContainer &msg, BaseContainer &result);
+	virtual Bool CoreMessage(Int32 id, const BaseContainer &msg);
 };
 
 
@@ -51,11 +53,11 @@ enum
 // Get a block of text, containing all comments from object "op"
 String GetCommentsText(BaseObject *op)
 {
-	BaseTag *tag = NULL;
+	BaseTag *tag = nullptr;
 	String result = String();
 	String block = String();
 	String icontxt = String();
-	BaseContainer *td = NULL;
+	BaseContainer *td = nullptr;
 
 	// Iterate tags of object
 	tag = op->GetFirstTag();
@@ -67,7 +69,7 @@ String GetCommentsText(BaseObject *op)
 
 			block = "";
 
-			if (td->GetLong(COMMENT_ICONMODE) != COMMENT_ICONMODE_0)
+			if (td->GetInt32(COMMENT_ICONMODE) != COMMENT_ICONMODE_0)
 			{
 				icontxt = " [" + GetSelectedCycleElementName(tag, COMMENT_ICONMODE) + "]";
 			}
@@ -87,7 +89,7 @@ String GetCommentsText(BaseObject *op)
 
 
 // Get object name and put decorative lines around it ;-)
-String GetObjectTitle(BaseObject *op, const String Decor = "==")
+String GetObjectTitle(BaseObject *op, const String Decor)
 {
 	if (op)
 		return Decor + " " + op->GetName() + " " + Decor;
@@ -98,7 +100,7 @@ String GetObjectTitle(BaseObject *op, const String Decor = "==")
 // Iterate "op"'s children and collect the comments into a block of text
 String GetChildObjectsComments(BaseObject *op)
 {
-	BaseObject *child = NULL;
+	BaseObject *child = nullptr;
 	String result = String();
 	String block = String();
 
@@ -138,11 +140,11 @@ String CommentInspectorDialog::GetComments(Bool UseChildren)
 	// Get AtomArray with selected objects
 	AtomArray *sel = AtomArray::Alloc();
 	if (!sel) return String();
-	doc->GetActiveObjects(*sel, TRUE);
+	doc->GetActiveObjects(*sel, GETACTIVEOBJECTFLAGS::GETACTIVEOBJECTFLAGS_CHILDREN);
 
 	// More stuff we'll need
-	BaseObject *op = NULL;
-	LONG i = 0;
+	BaseObject *op = nullptr;
+	Int32 i = 0;
 	String result = String();
 	String block = String();
 
@@ -203,15 +205,15 @@ Bool CommentInspectorDialog::InitValues(void)
 // Set default values for dialog elements
 {
 	// first call the parent instance
-	if (!GeDialog::InitValues()) return FALSE;
+	if (!GeDialog::InitValues()) return false;
 
 	SetString(IDC_CINSP_TEXT, String(""));
-	SetBool(IDC_CINSP_USECHILDREN, TRUE);
+	SetBool(IDC_CINSP_USECHILDREN, true);
 
-	return TRUE;
+	return true;
 }
 
-Bool CommentInspectorDialog::CoreMessage(LONG id, const BaseContainer &msg)
+Bool CommentInspectorDialog::CoreMessage(Int32 id, const BaseContainer &msg)
 {
 	switch (id)
 	{
@@ -219,7 +221,7 @@ Bool CommentInspectorDialog::CoreMessage(LONG id, const BaseContainer &msg)
 	case DOCUMENTOR_EVENT_MESSAGE:
 		if (CheckCoreMessage(msg))
 		{
-			Bool UseChildren = FALSE;
+			Bool UseChildren = false;
 			GetBool(IDC_CINSP_USECHILDREN, UseChildren);
 
 			String cnt = GetComments(UseChildren);
@@ -231,18 +233,18 @@ Bool CommentInspectorDialog::CoreMessage(LONG id, const BaseContainer &msg)
 }
 
 
-LONG CommentInspectorDialog::Message(const BaseContainer &msg, BaseContainer &result)
+Int32 CommentInspectorDialog::Message(const BaseContainer &msg, BaseContainer &result)
 // Receive a GUI message
 // (in this case it's just used for Enabling/Disabling the dialog elements)
 {
 	// Always disable text field
-	//Enable(IDC_CINSP_TEXT, FALSE);
+	//Enable(IDC_CINSP_TEXT, false);
 
 	switch (msg.GetId())
 	{
 	case BFM_ACTION:
 		{
-			if (msg.GetLong(BFM_ACTION_ID) == IDC_CINSP_USECHILDREN)
+			if (msg.GetInt32(BFM_ACTION_ID) == IDC_CINSP_USECHILDREN)
 				SpecialEventAdd(DOCUMENTOR_EVENT_MESSAGE);
 		}
 	}
@@ -281,9 +283,9 @@ Bool CCommentInspector::RestoreLayout(void *secret)
 /////////////////////////////////////////
 // Register function
 /////////////////////////////////////////
-Bool RegisterCommentInspector(void)
+Bool RegisterCommentInspector()
 {
 	// decide by name if the plugin shall be registered - just for user convenience
-	String name=GeLoadString(IDS_COMMENTINSPECTOR); if (!name.Content()) return TRUE;
-	return RegisterCommandPlugin(ID_COMMENTINSPECTOR, name, 0, AutoBitmap("CCommentInspector.tif"), GeLoadString(IDS_COMMENTINSPECTOR_HELP), gNew CCommentInspector);
+	String name=GeLoadString(IDS_COMMENTINSPECTOR); if (!name.Content()) return true;
+	return RegisterCommandPlugin(ID_COMMENTINSPECTOR, name, 0, AutoBitmap("CCommentInspector.tif"), GeLoadString(IDS_COMMENTINSPECTOR_HELP), NewObjClear(CCommentInspector));
 }
